@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\JenisParameterController; // jenisParameterController
+use App\Http\Controllers\JenisResultController; // jenisParameterController
+use App\Http\Controllers\AplikasiController; // aplikasiController
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
@@ -17,6 +20,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::middleware(['role:admin'])->group(function(){
         Route::resource('user',UserController::class);
+        Route::resource('aplikasi',AplikasiController::class);
+        Route::resource('jenis_parameter',JenisParameterController::class);
+        Route::resource('jenis_result',JenisResultController::class);
         Route::resource('role',RoleController::class);
         Route::resource('permission',PermissionController::class);
         Route::resource('category',CategoryController::class);
