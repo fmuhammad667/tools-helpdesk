@@ -36,7 +36,7 @@ class Aplikasi extends Model
         'namaAplikasi' => 'required|string|max:50',
         'namaModul' => 'required|string|max:50',
         'keterangan' => 'required|string',
-        'url' => 'required|string',
+        'urls.*' => 'required|url',
         'jenis_result' => 'required|exists:jenis_result,id',
         'jenis_parameter' => 'required|exists:jenis_parameter,id',
         'status' => 'required|boolean',
@@ -56,5 +56,16 @@ class Aplikasi extends Model
     public function jenisParameter()
     {
         return $this->belongsTo('App\Models\JenisParameter', 'jenis_parameter');
+    }
+    // Metode untuk mengubah data URLs menjadi array sebelum disimpan ke database
+    public function setUrlsAttribute($value)
+    {
+        $this->attributes['urls'] = json_encode($value);
+    }
+
+    // Metode untuk mengubah kembali data URLs menjadi array setelah diambil dari database
+    public function getUrlsAttribute($value)
+    {
+        return json_decode($value, true);
     }
 }

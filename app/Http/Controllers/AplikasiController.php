@@ -58,32 +58,29 @@ class AplikasiController extends Controller
         return view('admin.aplikasi.edit', compact('aplikasi','jenisResults', 'jenisParameters'));
     }
 
-    public function update(Request $request, Aplikasi $aplikasi)
+        public function update(Request $request, Aplikasi $aplikasi)
     {
         // Validasi input
         $validatedData = $request->validate([
-            'namaAplikasi' => 'required|string|max:50',
-            'namaModul' => 'required|string|max:50',
-            'keterangan' => 'required|string',
-            'url' => 'required|string',
-            'jenis_result' => 'required|exists:jenis_result,id',
-            'jenis_parameter' => 'required|exists:jenis_parameter,id',
+            'namaAplikasi' => 'required|string|max:255',
+            'namaModul' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
+            'urls.*' => 'required|url', // Validasi setiap URL dalam array
+            'jenis_result' => 'required|exists:jenis_results,id',
+            'jenis_parameter' => 'required|exists:jenis_parameters,id',
             'status' => 'required|boolean',
-            'modifiedBy' => 'required|string|max:50',
+            'modifiedBy' => 'required|string|max:255',
         ]);
 
-        // Update kolom yang diubah
+        // Update data aplikasi
         $aplikasi->namaAplikasi = $validatedData['namaAplikasi'];
         $aplikasi->namaModul = $validatedData['namaModul'];
         $aplikasi->keterangan = $validatedData['keterangan'];
-        $aplikasi->url = $validatedData['url'];
+        $aplikasi->urls = $validatedData['urls']; // Simpan URL sebagai array
         $aplikasi->jenis_result = $validatedData['jenis_result'];
         $aplikasi->jenis_parameter = $validatedData['jenis_parameter'];
         $aplikasi->status = $validatedData['status'];
         $aplikasi->modifiedBy = $validatedData['modifiedBy'];
-
-        // Set modifiedOn ke tanggal saat ini
-        $aplikasi->modifiedOn = Carbon::now();
 
         // Simpan perubahan ke database
         $aplikasi->save();

@@ -45,10 +45,10 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="url" class="col-sm-2 col-form-label">URL</label>
+                                <label for="urls" class="col-sm-2 col-form-label">URL</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" id="url" name="url" rows="3" required>{{ $aplikasi->url }}</textarea>
-                                    @error('url')
+                                    <textarea class="form-control" id="urls" name="urls[]" rows="3" required>@foreach ($aplikasi->urls as $url){{ $url }}&#10;@endforeach</textarea>
+                                    @error('urls')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
